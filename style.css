@@ -1,0 +1,209 @@
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@500&family=Noto+Sans+JP:wght@300&display=swap");
+* {
+  box-sizing: border-box;
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  display: none;
+}
+
+body.loaded {
+  display: block;
+}
+
+.icon-display {
+  width: 100vw;
+  height: calc(100vh + 40px);
+  position: absolute;
+  top: -40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 45px;
+  background-color: white;
+  z-index: 1;
+}
+.icon-display .icon {
+  position: relative;
+  font-family: "M PLUS 1p", sans-serif;
+}
+.icon-display .icon:before, .icon-display .icon:after {
+  content: "";
+  width: calc(50% + 10px);
+  height: 100%;
+  position: absolute;
+  z-index: 1;
+  background-color: white;
+  animation: 1s 0.5s forwards ease icon-show;
+}
+@keyframes icon-show {
+  0% {
+    width: 50%;
+  }
+  75% {
+    width: 0;
+    opacity: 1;
+  }
+  100% {
+    width: 0;
+    opacity: 0;
+  }
+}
+.icon-display .icon:before {
+  left: -10px;
+  border-right: 1px black solid;
+}
+.icon-display .icon:after {
+  right: -10px;
+  border-left: 1px black solid;
+}
+@keyframes progress {
+  0% {
+    width: 0;
+  }
+  25% {
+    width: 34%;
+  }
+  50% {
+    width: 34%;
+  }
+  85% {
+    width: 78%;
+  }
+  90% {
+    width: 78%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+.icon-display .progress {
+  width: 180px;
+  height: 0px;
+  position: relative;
+  top: 5px;
+  display: none;
+}
+.icon-display .progress > div {
+  width: 100%;
+  height: 5px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.icon-display .progress > div > div {
+  width: 0;
+  height: 100%;
+  background-color: black;
+  animation: 4s forwards linear progress;
+}
+.icon-display.progress-show .icon:before, .icon-display.progress-show .icon:after {
+  display: none;
+}
+.icon-display.progress-show .progress {
+  display: block;
+}
+@keyframes loaded {
+  0% {
+    top: -40px;
+  }
+  20% {
+    top: 0;
+  }
+  100% {
+    top: calc(-100vh - 12px - 40px);
+  }
+}
+.icon-display.progress-end {
+  box-shadow: 0 6px 6px 0px grey;
+  animation: 1.25s forwards ease loaded;
+}
+.icon-display.icon-show-end {
+  display: none;
+}
+
+.main {
+  height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+}
+.main .chat {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.main .chat .logs {
+  width: 100%;
+  height: 100%;
+}
+.main .chat .input {
+  width: 750px;
+  display: flex;
+  align-items: flex-end;
+  border-radius: 5px;
+  padding: 8px 10px;
+  box-shadow: 0 0px 5px 3px #cdcdcd;
+  margin-bottom: 30px;
+}
+.main .chat .input textarea {
+  height: 24px;
+  max-height: 200px;
+  width: 100%;
+  resize: none;
+  font-size: 16px;
+  border: none;
+  outline: none;
+}
+.main .chat .input textarea::-webkit-scrollbar {
+  display: none;
+}
+.main .chat .input button {
+  width: 27px;
+  height: 27px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-left: 10px;
+  background-color: white;
+  border: none;
+}
+.main .chat .input button:hover {
+  background-color: #e9e9e9 !important;
+}
+.main .chat .input button div {
+  height: 15px;
+  width: 15px;
+  background-repeat: no-repeat;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="-10 -235 518 516"><path d="M134 216l-68 136l317 -136h-249v0zM134 168h249l-317 -136l68 136v0zM45 413q-21 8 -36 -7q-14 -16 -6 -36l89 -178l-89 -178q-8 -20 6 -36q15 -15 36 -8l448 192q18 9 19 30q-1 20 -19 29l-448 192v0z" transform="rotate(-45)"/></svg>');
+}
+.main .conversations {
+  width: 300px;
+  padding: 10px;
+  box-shadow: -3px 0 3px grey;
+}
+.main .conversations .new-chat {
+  width: 100%;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  border: 2px solid grey;
+  padding: 0 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.main .conversations .new-chat:before {
+  content: "+";
+  width: 20px;
+  display: block;
+  font-size: 20px;
+}
+.main .conversations .new-chat:hover {
+  background-color: #e9e9e9;
+}/*# sourceMappingURL=style.css.map */
