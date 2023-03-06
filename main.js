@@ -1,4 +1,34 @@
 window.addEventListener("DOMContentLoaded", () => {
+  let logs = [];
+  let nowChat = 0;
+  function newChat() {
+    let target = document.createElement("div");
+    target.innerText = "新しい会話";
+    target.addEventListener("click", () => {
+      changeChat(logs.length);
+    });
+    document.querySelector(".main .conversations .logs").append(target);
+    nowChat = logs.length;
+    logs.push({
+      id: logs.length,
+      title: null,
+      logs: [],
+      target: target,
+    });
+  }
+  function updateTitle(id, title) {
+    if(!logs[id]) return;
+    logs[id].title = title;
+    document.querySelector("title").innerText = title;
+    logs[id].target.innerText = title;
+  }
+  function changeChat(id) {
+    if(!logs[id]) return;
+    nowChat = id; 
+  }
+  function clearChat(id) {
+    
+  }
   document.querySelector(".icon-display .icon").addEventListener("animationend", () => {
     setTimeout(() => {
       document.querySelector(".icon-display").classList.add("progress-show");
@@ -6,13 +36,14 @@ window.addEventListener("DOMContentLoaded", () => {
   });
   document.querySelector(".icon-display .progress").addEventListener("animationend", () => {
     setTimeout(() => {
+      document.querySelector(".main .chat textarea").focus();
+      newChat();
       document.querySelector(".icon-display").classList.add("progress-end");
     }, 500);
   });
   document.querySelector(".icon-display").addEventListener("animationend", e => {
     if(e.animationName != "loaded") return;
     document.querySelector(".icon-display").classList.add("icon-show-end");
-    document.querySelector(".main .chat textarea").focus();
     document.querySelector("title").innerText = "新しい会話";
   });
   document.querySelector(".main .chat textarea").addEventListener("input", e => {
@@ -95,7 +126,6 @@ window.addEventListener("DOMContentLoaded", () => {
         useful: [
           "が参考になると思います",
           "が有用だと思います",
-          "が参考になると思います",
           "が役に立つと思います",
           "が役立つと思います",
           "が役に立つかもしれません",
@@ -107,7 +137,7 @@ window.addEventListener("DOMContentLoaded", () => {
         console.log(temp);
         return temp;
       }
-      if(!contents) {
+      if(!contents || contents.match(/^\w+$/)) {
         if(rand(1) == 0) {
           responce += `${rand_list.sorry[rand(1)]}、${rand_list.understand[rand(4)]}。`;
         } else {
@@ -115,13 +145,18 @@ window.addEventListener("DOMContentLoaded", () => {
         }
         responce += `\n\n「${rand_list.howto[rand(7)]}」のように、${rand_list.question[rand(3)]}。`;
       } else {
-        responce = `「${contents}」${rand_list.about[rand(2)]}、以下の${rand_list.site[rand(2)]}${rand_list.useful[rand(3)]}。\n\n[${pathfilter.join(" ")}](https://www.google.com/search?q=${pathfilter.join("+")})`;
+        responce = `「${contents}」${rand_list.about[rand(2)]}、以下の${rand_list.site[rand(3)]}${rand_list.useful[rand(5)]}。\n\n[${pathfilter.join(" ")}](https://www.google.com/search?q=${pathfilter.join("+")})`;
       }
       let index = 0;
       let id = setInterval(() => {
-        if(index > responce.length - 2) {
+        if(index > responce.length + 10) {
           clearInterval(id);
+          updateTitle(nowChat, contents);
           div4.classList.add("res-end");
+        }
+        if(index > responce.length - 1) {
+          index++;
+          return;
         }
         div4.innerHTML = responce.slice(0, 1 + index++).replaceAll("<", "&gt;").replaceAll(">", "&lt;").replaceAll("\n", "<br>").replace(/\[(.+)\]\((.+)\)/, "<a href=\"$2\" target=\"_blank\">$1</a>");
       }, 90);
@@ -132,6 +167,9 @@ window.addEventListener("DOMContentLoaded", () => {
       document.querySelector(".main .chat button").dispatchEvent(new Event("click"));
       e.preventDefault();
     }
+  });
+  document.querySelector(".main .conversations .new-chat").addEventListener("click", () => {
+    newChat();
   });
 });
 window.addEventListener("load", () => {
