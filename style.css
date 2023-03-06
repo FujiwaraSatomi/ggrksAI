@@ -14,6 +14,14 @@ body.loaded {
   display: block;
 }
 
+a {
+  text-decoration: none;
+  color: blue;
+}
+a:hover {
+  text-decoration: underline;
+}
+
 .icon-display {
   width: 100vw;
   height: calc(100vh + 40px);
@@ -141,6 +149,43 @@ body.loaded {
   width: 100%;
   height: 100%;
 }
+.main .chat .logs > div {
+  min-height: 63px;
+  padding: 20px 0;
+}
+.main .chat .logs > div div {
+  width: 750px;
+  min-height: 24px;
+  margin: 0 auto;
+}
+.main .chat .logs > div.respond {
+  background-color: #f7f7f8;
+}
+@keyframes flash {
+  0% {
+    width: 10px;
+  }
+  50% {
+    width: 0;
+  }
+  100% {
+    width: 10px;
+  }
+}
+.main .chat .logs > div.respond div:after {
+  content: "";
+  width: 10px;
+  height: 18px;
+  position: relative;
+  top: 3px;
+  display: inline-block;
+  background-color: black;
+  margin-left: 5px;
+  animation: 1s step-end flash infinite;
+}
+.main .chat .logs > div.respond div.res-end:after {
+  display: none;
+}
 .main .chat .input {
   width: 750px;
   display: flex;
@@ -196,6 +241,7 @@ body.loaded {
   border: 2px solid grey;
   padding: 0 10px;
   border-radius: 5px;
+  font-size: 13px;
   cursor: pointer;
 }
 .main .conversations .new-chat:before {
