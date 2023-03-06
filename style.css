@@ -151,6 +151,9 @@ a:hover {
   min-height: 24px;
   margin: 0 auto;
 }
+.main .chat .logs > div.question {
+  background-color: white;
+}
 .main .chat .logs > div.respond {
   background-color: #f7f7f8;
 }
@@ -165,7 +168,7 @@ a:hover {
     width: 10px;
   }
 }
-.main .chat .logs > div.respond div:after {
+.main .chat .logs > div.respond div.responding:after {
   content: "";
   width: 10px;
   height: 18px;
@@ -175,9 +178,6 @@ a:hover {
   background-color: black;
   margin-left: 5px;
   animation: 1s step-end flash infinite;
-}
-.main .chat .logs > div.respond div.res-end:after {
-  display: none;
 }
 .main .chat .input {
   width: 750px;
