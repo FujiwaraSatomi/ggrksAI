@@ -15,7 +15,6 @@ window.addEventListener("DOMContentLoaded", () => {
       target.setAttribute("data-id", nowChat);
     }
     target.addEventListener("click", e => {
-      console.log(e);
       let id;
       if(e.target.classList.contains("delete")) {
         id = Number(e.target.parentElement.getAttribute("data-id"));
@@ -28,7 +27,7 @@ window.addEventListener("DOMContentLoaded", () => {
         if(id == nowChat) {
           changeChat(0);
         }
-        if(id < nowChat) {
+        if(id <= nowChat) {
           nowChat--;
         }
         logs.forEach((value, index) => {
@@ -48,8 +47,8 @@ window.addEventListener("DOMContentLoaded", () => {
     if(title === undefined) {
       nowChat = logs.length;
       logs.push({
-        title: null,
-        input: null,
+        title: "",
+        input: "",
         logs: [],
         target: target,
       });
@@ -71,6 +70,8 @@ window.addEventListener("DOMContentLoaded", () => {
   }
   function changeChat(id, input) {
     if(!logs[id]) return;
+    console.log(logs);
+    console.log(nowChat);
     logs[nowChat].input = input;
     let target = document.querySelector(".main .chat .logs");
     while(target.firstChild) {
@@ -97,11 +98,13 @@ window.addEventListener("DOMContentLoaded", () => {
     logs.splice(id, 1);
   }
   function saveChat() {
+    console.log(logs);
+    console.log(nowChat);
     logs[nowChat].input = document.querySelector(".main .chat textarea").value;
     localStorage.setItem("raw", JSON.stringify(logs.map(value => {
       return {
-        title: value.title,
-        input: value.input,
+        title: value.title || null,
+        input: value.input || "",
         logs: value.logs,
       }
     })));
