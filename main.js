@@ -5,12 +5,12 @@ window.addEventListener("DOMContentLoaded", () => {
     let target = document.createElement("div");
     target.innerText = (title || "新しい会話");
     if(!title) {
-      target.setAttribute("id", logs.length);
+      target.setAttribute("data-id", logs.length);
     } else {
-      target.setAttribute("id", nowChat);
+      target.setAttribute("data-id", nowChat);
     }
     target.addEventListener("click", e => {
-      changeChat(Number(e.currentTarget.getAttribute("id")), document.querySelector(".main .chat textarea").value);
+      changeChat(Number(e.currentTarget.getAttribute("data-id")), document.querySelector(".main .chat textarea").value);
     });
     document.querySelector(".main .conversations .logs").append(target);
     if(!title) {
@@ -78,11 +78,6 @@ window.addEventListener("DOMContentLoaded", () => {
     if(!localStorage.getItem("raw")) return;
     logs = JSON.parse(localStorage.getItem("raw"));
     let target = document.querySelector(".main .conversations .logs");
-    for(let i = 0; i < logs.length; i++) {
-      if(!logs[i].logs.length) {
-        logs.splice(i--, 1);
-      }
-    }
     logs.forEach(value => {
       newChat(value.title);
     });
@@ -209,6 +204,8 @@ window.addEventListener("DOMContentLoaded", () => {
       } else {
         responce = `「${contents}」${rand_list.about[rand(2)]}、以下の${rand_list.site[rand(3)]}${rand_list.useful[rand(5)]}。\n\n[${contents}](https://www.google.com/search?q=${contents.replaceAll(" ", "+")})`;
       }
+      logPush(nowChat, responce, true);
+      saveChat();
       let index = 0;
       let id = setInterval(() => {
         if(index > responce.length + 10) {
@@ -216,8 +213,6 @@ window.addEventListener("DOMContentLoaded", () => {
           if(responce_type) {
             updateTitle(nowChat, contents);
           }
-          logPush(nowChat, responce, true);
-          saveChat();
           console.log(logs);
           div4.classList.remove("responding");
         }
