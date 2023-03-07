@@ -3,12 +3,20 @@ window.addEventListener("DOMContentLoaded", () => {
   let nowChat = 0;
   function newChat(title) {
     let target = document.createElement("div");
-    target.innerText = (title || "新しい会話");
+    let span = document.createElement("span");
+    span.innerText = (title || "新しい会話");
+    target.append(span);
+    let remove = document.createElement("div");
+    remove.classList.add("delete");
+    target.append(remove);
     if(!title) {
       target.setAttribute("data-id", logs.length);
     } else {
       target.setAttribute("data-id", nowChat);
     }
+    remove.addEventListener("click", e => {
+      console.log(e);
+    })
     target.addEventListener("click", e => {
       changeChat(Number(e.currentTarget.getAttribute("data-id")), document.querySelector(".main .chat textarea").value);
     });
@@ -28,8 +36,8 @@ window.addEventListener("DOMContentLoaded", () => {
   function updateTitle(id, title) {
     if(!logs[id]) return;
     logs[id].title = title;
-    document.querySelector("title").innerText = title;
-    logs[id].target.innerText = title;
+    document.querySelector("title").innerText = title + " | ggrks AI";
+    logs[id].target.querySelector("span").innerText = title;
   }
   function logPush(id, raw, respond) {
     logs[id].logs.push({
@@ -77,7 +85,6 @@ window.addEventListener("DOMContentLoaded", () => {
   function loadChat() {
     if(!localStorage.getItem("raw")) return;
     logs = JSON.parse(localStorage.getItem("raw"));
-    let target = document.querySelector(".main .conversations .logs");
     logs.forEach(value => {
       newChat(value.title);
     });
@@ -99,7 +106,7 @@ window.addEventListener("DOMContentLoaded", () => {
   document.querySelector(".icon-display").addEventListener("animationend", e => {
     if(e.animationName != "loaded") return;
     document.querySelector(".icon-display").classList.add("icon-show-end");
-    document.querySelector("title").innerText = "新しい会話";
+    document.querySelector("title").innerText = "新しい会話 | ggrks AI";
   });
   document.querySelector(".main .chat textarea").addEventListener("input", e => {
     e.target.style.height = "24px";
