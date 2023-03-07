@@ -4,7 +4,7 @@ window.addEventListener("DOMContentLoaded", () => {
   function newChat(title) {
     let target = document.createElement("div");
     target.innerText = (title || "新しい会話");
-    if(!target) {
+    if(!title) {
       target.setAttribute("id", logs.length);
     } else {
       target.setAttribute("id", nowChat);
@@ -62,7 +62,7 @@ window.addEventListener("DOMContentLoaded", () => {
   }
   function clearChat(id) {
     if(!logs[id]) return;
-    delete logs[id];
+    logs[id].splice(id, 1);
   }
   function saveChat() {
     logs[nowChat].input = document.querySelector(".main .chat textarea").value;
@@ -78,6 +78,11 @@ window.addEventListener("DOMContentLoaded", () => {
     if(!localStorage.getItem("raw")) return;
     logs = JSON.parse(localStorage.getItem("raw"));
     let target = document.querySelector(".main .conversations .logs");
+    for(let i = 0; i < logs.length; i++) {
+      if(!logs[i].logs.length) {
+        logs[i].splice(i--, 1);
+      }
+    }
     logs.forEach(value => {
       newChat(value.title);
     });
