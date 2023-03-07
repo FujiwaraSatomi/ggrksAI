@@ -194,7 +194,7 @@ a {
       border-radius: 5px;
       padding: 8px 10px;
       box-shadow: 0 0px 5px 3px #cdcdcd;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
       
       & textarea {
         height: 24px;
@@ -229,8 +229,19 @@ a {
           height: 15px;
           width: 15px;
           background-repeat: no-repeat;
-          background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="-10 -235 518 516"><path d="M134 216l-68 136l317 -136h-249v0zM134 168h249l-317 -136l68 136v0zM45 413q-21 8 -36 -7q-14 -16 -6 -36l89 -178l-89 -178q-8 -20 6 -36q15 -15 36 -8l448 192q18 9 19 30q-1 20 -19 29l-448 192v0z" transform="rotate(-45)"/></svg>');
+          background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="-10 -235 518 516"><path fill="grey" d="M134 216l-68 136l317 -136h-249v0zM134 168h249l-317 -136l68 136v0zM45 413q-21 8 -36 -7q-14 -16 -6 -36l89 -178l-89 -178q-8 -20 6 -36q15 -15 36 -8l448 192q18 9 19 30q-1 20 -19 29l-448 192v0z" transform="rotate(-45)"/></svg>');
         }
+      }
+    }
+    & .about {
+      position: absolute;
+      bottom: 10px;
+      font-size: 13px;
+      color: grey;
+      
+      & a {
+        color: grey;
+        text-decoration: underline;
       }
     }
   }

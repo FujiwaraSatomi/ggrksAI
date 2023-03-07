@@ -49,7 +49,7 @@ window.addEventListener("DOMContentLoaded", () => {
       div.classList.add("wrap", (value.respond ? "respond" : "question"));
       let div2 = document.createElement("div");
       if(value.respond) {
-        div2.innerHTML = value.raw.replace(/\[(.+)\]\((.+)\)/, "<a href=\"$2\" target=\"_blank\">$1</a>");
+        div2.innerHTML = value.raw.replace(/\n/g, "<br>").replace(/\[(.+)\]\((.+)\)/, "<a href=\"$2\" target=\"_blank\">$1</a>");
       } else {
         div2.innerText = value.raw;
       }
@@ -62,7 +62,7 @@ window.addEventListener("DOMContentLoaded", () => {
   }
   function clearChat(id) {
     if(!logs[id]) return;
-    logs[id].splice(id, 1);
+    logs.splice(id, 1);
   }
   function saveChat() {
     logs[nowChat].input = document.querySelector(".main .chat textarea").value;
@@ -80,7 +80,7 @@ window.addEventListener("DOMContentLoaded", () => {
     let target = document.querySelector(".main .conversations .logs");
     for(let i = 0; i < logs.length; i++) {
       if(!logs[i].logs.length) {
-        logs[i].splice(i--, 1);
+        logs.splice(i--, 1);
       }
     }
     logs.forEach(value => {
