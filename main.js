@@ -9,19 +9,43 @@ window.addEventListener("DOMContentLoaded", () => {
     let remove = document.createElement("div");
     remove.classList.add("delete");
     target.append(remove);
-    if(!title) {
+    if(title === undefined) {
       target.setAttribute("data-id", logs.length);
     } else {
       target.setAttribute("data-id", nowChat);
     }
-    remove.addEventListener("click", e => {
-      console.log(e);
-    })
     target.addEventListener("click", e => {
-      changeChat(Number(e.currentTarget.getAttribute("data-id")), document.querySelector(".main .chat textarea").value);
+      console.log(e);
+      let id;
+      if(e.target.classList.contains("delete")) {
+        id = Number(e.target.parentElement.getAttribute("data-id"));
+        clearChat(id);
+        e.target.parentElement.remove();
+        if(!logs.length) {
+          newChat();
+          changeChat(0);
+        }
+        if(id == nowChat) {
+          changeChat(0);
+        }
+        if(id < nowChat) {
+          nowChat--;
+        }
+        logs.forEach((value, index) => {
+          value.target.setAttribute("data-id", index);
+        });
+        saveChat();
+        return;
+      }
+      if(e.target.tagName == "SPAN") {
+        id = Number(e.target.parentElement.getAttribute("data-id"));
+      } else {
+        id = Number(e.target.getAttribute("data-id"));
+      }
+      changeChat(id, document.querySelector(".main .chat textarea").value);
     });
     document.querySelector(".main .conversations .logs").append(target);
-    if(!title) {
+    if(title === undefined) {
       nowChat = logs.length;
       logs.push({
         title: null,
@@ -199,13 +223,14 @@ window.addEventListener("DOMContentLoaded", () => {
         let temp = Math.floor(Math.random() * (max + 1));
         return temp;
       }
-      let responce = "", responce_type = true;
+      let responce = "", responce_type = true, understand = null;
       if(!contents || contents.match(/^\w+$/)) {
         responce_type = false;
+        understand = rand_list.understand[rand(4)];
         if(rand(1) == 0) {
-          responce += `${rand_list.sorry[rand(1)]}、${rand_list.understand[rand(4)]}。`;
+          responce += `${rand_list.sorry[rand(1)]}、${understand}。`;
         } else {
-          responce += `${rand_list.understand[rand(4)]}、${rand_list.sorry[rand(1)]}。`;
+          responce += `${understand}、${rand_list.sorry[rand(1)]}。`;
         }
         responce += `\n\n「${rand_list.howto[rand(7)]}」のように、${rand_list.question[rand(3)]}。`;
       } else {
@@ -219,6 +244,8 @@ window.addEventListener("DOMContentLoaded", () => {
           clearInterval(id);
           if(responce_type) {
             updateTitle(nowChat, contents);
+          } else {
+            updateTitle(nowChat, understand);
           }
           console.log(logs);
           div4.classList.remove("responding");
