@@ -4,20 +4,26 @@ window.addEventListener("DOMContentLoaded", () => {
   function newChat(title) {
     let target = document.createElement("div");
     target.innerText = (title || "新しい会話");
-    target.setAttribute("id", logs.length);
+    if(!target) {
+      target.setAttribute("id", logs.length);
+    } else {
+      target.setAttribute("id", nowChat);
+    }
     target.addEventListener("click", e => {
       changeChat(Number(e.currentTarget.getAttribute("id")), document.querySelector(".main .chat textarea").value);
     });
     document.querySelector(".main .conversations .logs").append(target);
     if(!title) {
+      nowChat = logs.length;
       logs.push({
         title: null,
         input: null,
         logs: [],
         target: target,
       });
+    } else {
+      logs[nowChat++].target = target;
     }
-    nowChat = logs.length;
   }
   function updateTitle(id, title) {
     if(!logs[id]) return;
@@ -50,7 +56,7 @@ window.addEventListener("DOMContentLoaded", () => {
       div.append(div2);
       target.append(div);
     });
-    document.querySelector(".main .chat textarea").value = logs[id].input;
+    document.querySelector(".main .chat textarea").value = logs[id].input || "";
     document.querySelector(".main .chat textarea").focus();
     nowChat = id;
   }
@@ -60,7 +66,13 @@ window.addEventListener("DOMContentLoaded", () => {
   }
   function saveChat() {
     logs[nowChat].input = document.querySelector(".main .chat textarea").value;
-    localStorage.setItem("raw", JSON.stringify(logs));
+    localStorage.setItem("raw", JSON.stringify(logs.map(value => {
+      return {
+        title: value.title,
+        input: value.input,
+        logs: value.logs,
+      }
+    })));
   }
   function loadChat() {
     if(!localStorage.getItem("raw")) return;
@@ -159,6 +171,7 @@ window.addEventListener("DOMContentLoaded", () => {
           "については",
           "につきましては",
           "においては",
+          "に関しては",
         ],
         site: [
           "ウェブサイト",
